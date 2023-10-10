@@ -1,0 +1,184 @@
+syntax="proto3";
+
+option java_package ="com.SEC.grpc";
+
+service BTFTB {
+
+  rpc getRid(GetRidRequest) returns(RidResponse);
+
+  rpc open_account(OpenAccountRequest) returns (APIresponse);
+
+  rpc send_amount(SendAmountRequest) returns (SendAmountResponse);
+
+  rpc check_account(CheckAccountRequest) returns (AccountResponse);
+
+  rpc receive_amount(ReceiveAmountRequest) returns (ReceiveAmountResponse);
+
+  rpc audit(AuditRequest) returns (AuditTransactionResponse);
+
+  rpc check_account_wb(CAWBRequest) returns (CAWBResponse);
+
+  rpc audit_wb(ADWBRequest) returns (ADWBResponse);
+
+  rpc POW_Request(PowRequest) returns (PowResponse);
+}
+
+
+
+message OpenAccountRequest{
+  bytes key=1;
+  string username=2;
+  bytes balancePlusWidSign=3;
+  int64 balance=4;
+  int32 wid=5;
+  bytes signature=6;
+
+
+}
+
+message Transaction{
+  bytes source=1;
+  bytes dest=2;
+  int32 amount=3;
+  bytes signature=4;
+  string senderUsername=5;
+  string receiverUsername=6;
+  int32 wid=7;
+  int32 position=8;
+}
+
+message SendAmountRequest{
+  bytes message_signature=1;
+  Transaction transaction=2;
+  int32 balance=3;
+  bytes balancePlusWidSign=4;
+
+}
+
+
+message SendAmountResponse{
+  string message=1;
+  int32 wid=2;
+  bytes signature=3;
+}
+
+
+message APIresponse{
+  string response=1;
+  bytes bytes=2;
+}
+
+
+
+message CheckAccountRequest{
+  bytes toCheckPubKey=1;
+  int32 rid=2;
+  bytes myPubkey=3;
+  int64 pow=4;
+  bytes concatenated=5;
+  bytes signature=6;
+}
+
+message AccountResponse{
+  int32 balance=1;
+  bytes message_sign=3;
+  repeated Transaction list=4;
+  int32 wid=5;
+  int32 rid=6;
+  bytes balancePlusWidSign=7;
+  string message=8;
+
+
+}
+
+
+message ReceiveAmountRequest{
+  bytes key=1;
+  string id=2;
+  bytes signature=3;
+  int32 wid=4;
+  int32 balance=5;
+  bytes widAndBalance=6;
+  Transaction transaction=7;
+}
+
+message ReceiveAmountResponse{
+  int32 wid=3;
+  string response=5;
+  bytes signature=6;
+
+}
+
+message AuditRequest{
+  bytes myKey=1;
+  bytes keyToCheck=2;
+  int32 rid=3;
+  int64 pow=4;
+  bytes concatenated=5;
+  bytes signature=6;
+
+}
+
+message AuditTransactionResponse{
+
+  int32 rid=2;
+  int32 wid=3;
+  repeated Transaction list=4;
+  bytes signature=5;
+  string message=6;
+
+}
+
+message GetRidRequest{
+  bytes myKey=1;
+  bytes signature=2;
+}
+
+message RidResponse{
+  int32 myRid=1;
+  bytes response=2;
+}
+
+message CAWBRequest{
+  int32 wid=1;
+  int32 balance=2;
+  repeated Transaction transaction=3;
+  bytes balancePlusWid=4;
+  int32 rid=5;
+  bytes signature=6;
+  bytes myKey=7;
+  bytes checkedKey=8;
+}
+
+message CAWBResponse{
+  string message=1;
+  bytes byte=2;
+
+}
+
+message ADWBRequest{
+  repeated Transaction transaction=3;
+  int32 rid=5;
+  bytes myKey=7;
+  bytes checkedKey=8;
+  bytes signature=6;
+
+}
+
+message ADWBResponse{
+  string message=1;
+  bytes byte=2;
+}
+
+message PowRequest{
+  bytes myPublicKey=1;
+  int64 nonce=2;
+  bytes signature=3;
+
+}
+
+message PowResponse{
+  int64 nonce=1;
+  bytes challenge=2;
+  bytes signature=3;
+}

@@ -1,0 +1,51 @@
+syntax="proto3";
+
+option java_package ="com.SEC.grpc";
+
+service BTFTB {
+
+  rpc open_account(OpenAccountRequest) returns (APIresponse);
+
+  rpc send_amount(SendAmountRequest) returns (APIresponse);
+
+  rpc check_account(OpenAccountRequest) returns (AccountResponse);
+
+  rpc receive_amount(ReceiveAmountRequest) returns (APIresponse);
+
+  rpc audit(OpenAccountRequest) returns (TransactionResponse);
+
+}
+
+message OpenAccountRequest{
+  bytes key=1;
+}
+
+message SendAmountRequest{
+  bytes source=1;
+  bytes dest=2;
+  float amount=3;
+
+}
+
+message APIresponse{
+  string response=1;
+  int32 responseCode=2;
+}
+
+message AccountResponse{
+  float accounting=1;
+  float available=2;
+  bytes pending=3;
+
+}
+
+message ReceiveAmountRequest{
+  bytes key=1;
+  string id=2;
+}
+
+message TransactionResponse{
+  bytes transactions=3;
+
+}
+

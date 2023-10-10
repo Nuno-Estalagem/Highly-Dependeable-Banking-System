@@ -1,0 +1,43 @@
+syntax="proto3";
+
+option java_package ="com.SEC.grpc";
+
+
+
+service ADEB {
+
+  rpc echo(EchoRequest) returns (EchoResponse);
+
+  rpc ready(ReadyRequest) returns (ReadyResponse);
+}
+
+message EchoRequest{
+  bytes params=1;
+  bytes signed=2;
+  bytes nonce=3;
+  bytes pubkey=4;
+
+
+}
+
+message EchoResponse{
+  string ack=1;
+  bytes signed=2;
+  bytes nonce=3;
+
+}
+
+message ReadyRequest{
+  bytes params=1;
+  bytes signed=2;
+  bytes nonce=3;
+  bytes pubkey=4;
+
+}
+
+message ReadyResponse{
+  string ack=1;
+  bytes signed=2;
+  bytes nonce=3;
+
+}
